@@ -106,6 +106,7 @@ namespace CNLSP
                 Thread.Sleep(1000);
                 WriteColor("Extracting files.zip...", ConsoleColor.Yellow);
                 ZipFile.ExtractToDirectory($"{scriptFolder}\\files.zip", $"{scriptFolder}");
+                File.Delete($"{scriptFolder}\\files.zip");
                 WriteColor("Finished extracting files.zip!", ConsoleColor.Green);
 
                 Thread.Sleep(1000);
