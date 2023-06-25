@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.IO.Compression;
+using System.Text.RegularExpressions;
 
 namespace CNLSP
 {
@@ -18,7 +19,7 @@ namespace CNLSP
             using FileStream fileStream = new(path, FileMode.OpenOrCreate);
             stream.Result.CopyTo(fileStream);
             if (stream.IsCompletedSuccessfully)
-                WriteColor("Downloaded file successfully!", ConsoleColor.Green);
+                WriteColor("Downloaded file(s) successfully!", ConsoleColor.Green);
         }
 
         private static readonly string LatiteFolder =
@@ -52,7 +53,7 @@ namespace CNLSP
             Console.Write("> ");
 
             string? scriptFolderName = Console.ReadLine();
-            string scriptFolder;
+            string scriptFolder = string.Empty;
 
             if (scriptFolderName != string.Empty)
             {
@@ -86,6 +87,22 @@ namespace CNLSP
                 Thread.Sleep(1000);
                 WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
             }
+
+            Thread.Sleep(1000);
+            WriteColor("\nDownloading zip file for example scripting files...", ConsoleColor.Yellow);
+            DownloadFile("https://latite-client.is-from.space/r/NewLatiteScriptingProject.zip",
+                $"{scriptFolder}\\files.zip");
+
+            Thread.Sleep(1000);
+            WriteColor("Extracting files.zip...", ConsoleColor.Yellow);
+            ZipFile.ExtractToDirectory($"{scriptFolder}\\files.zip", $"{scriptFolder}");
+            WriteColor("Finished extracting files.zip!", ConsoleColor.Green);
+
+            Thread.Sleep(1000);
+            WriteColor($"Finished setting up development environment!\nThe script folder location is: {scriptFolder}",
+                ConsoleColor.Green);
+            WriteColor("Exiting in 5 seconds...", ConsoleColor.Red);
+            Thread.Sleep(5000);
         }
     }
 }
