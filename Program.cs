@@ -1,4 +1,6 @@
-﻿namespace CNLSP
+﻿using System.Text.RegularExpressions;
+
+namespace CNLSP
 {
     internal class Program
     {
@@ -54,10 +56,25 @@
 
             if (scriptFolderName != string.Empty)
             {
-                scriptFolder = $"{LatiteFolder}\\Scripts\\{scriptFolderName}";
-                Directory.CreateDirectory(scriptFolder);
-                Thread.Sleep(1000);
-                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+                if (Regex.IsMatch(scriptFolderName,
+                        "^(?!(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\.[^.]*)?$)[^<>:\"/\\\\|?*\\x00-\\x1F]*[^<>:\"/\\\\|?*\\x00-\\x1F\\ .]$"))
+                {
+                    scriptFolder = $"{LatiteFolder}\\Scripts\\{scriptFolderName}";
+                    Directory.CreateDirectory(scriptFolder);
+                    Thread.Sleep(1000);
+                    WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+                }
+                else
+                {
+                    WriteColor(
+                        "The folder name you supplied is not compatible with Windows, so the folder name is now \"Example\".",
+                        ConsoleColor.Red);
+                    scriptFolderName = "Example";
+                    scriptFolder = $"{LatiteFolder}\\Scripts\\Example";
+                    Directory.CreateDirectory(scriptFolder);
+                    Thread.Sleep(1000);
+                    WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+                }
             }
             else if (scriptFolderName == string.Empty)
             {
