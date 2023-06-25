@@ -41,10 +41,34 @@
             {
                 WriteColor("ChakraCore.dll is not in the Latite folder! Downloading ChakraCore.dll...",
                     ConsoleColor.Red);
-                DownloadFile("https://latite-client.is-from.space/r/ChakraCore.dll", $"{LatiteFoler}\\ChakraCore.dll");
+                DownloadFile("https://latite-client.is-from.space/r/ChakraCore.dll", $"{LatiteFolder}\\ChakraCore.dll");
             }
 
             Thread.Sleep(1000);
+
+            WriteColor("\nWhat do you want the name of the folder of the script to be?", ConsoleColor.White);
+            Console.Write("> ");
+
+            string? scriptFolderName = Console.ReadLine();
+            string scriptFolder;
+
+            if (scriptFolderName != string.Empty)
+            {
+                scriptFolder = $"{LatiteFolder}\\Scripts\\{scriptFolderName}";
+                Directory.CreateDirectory(scriptFolder);
+                Thread.Sleep(1000);
+                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+            }
+            else if (scriptFolderName == string.Empty)
+            {
+                WriteColor("You supplied an empty folder name, so the folder name is now \"Example\". ",
+                    ConsoleColor.Red);
+                scriptFolderName = "Example";
+                scriptFolder = $"{LatiteFolder}\\Scripts\\Example";
+                Directory.CreateDirectory(scriptFolder);
+                Thread.Sleep(1000);
+                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+            }
         }
     }
 }
