@@ -19,7 +19,7 @@
                 WriteColor("Downloaded file successfully!", ConsoleColor.Green);
         }
 
-        private static readonly string LatiteFoler =
+        private static readonly string LatiteFolder =
             $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\Latite";
 
         private static readonly string UserName = Environment.UserName;
@@ -35,7 +35,7 @@
 
             Thread.Sleep(1000);
 
-            if (File.Exists($"{LatiteFoler}\\ChakraCore.dll"))
+            if (File.Exists($"{LatiteFolder}\\ChakraCore.dll"))
                 WriteColor("ChakraCore.dll is in the Latite folder!", ConsoleColor.Green);
             else
             {
