@@ -115,7 +115,6 @@ namespace CNLSP
                     ConsoleColor.Green);
                 WriteColor("Press any key to exit...", ConsoleColor.Red);
                 Console.ReadLine();
-                Thread.Sleep(5000);
             }
             else
             {
@@ -123,7 +122,6 @@ namespace CNLSP
                     "Files exist in the script folder directory!\nThe script folder directory MUST be empty to setup the development environment! Press any key to exit...",
                     ConsoleColor.Red);
                 Console.ReadLine();
-                Thread.Sleep(5000);
                 return 1;
             }
 
