@@ -34,21 +34,6 @@ namespace CNLSP
 
             Thread.Sleep(3000);
 
-            WriteColor("\nChecking if ChakraCore.dll is in your Latite folder...", ConsoleColor.Yellow);
-
-            Thread.Sleep(1000);
-
-            if (File.Exists($"{LatiteFolder}\\ChakraCore.dll"))
-                WriteColor("ChakraCore.dll is in the Latite folder!", ConsoleColor.Green);
-            else
-            {
-                WriteColor("ChakraCore.dll is not in the Latite folder! Downloading ChakraCore.dll...",
-                    ConsoleColor.Red);
-                DownloadFile("https://latite-client.is-from.space/r/ChakraCore.dll", $"{LatiteFolder}\\ChakraCore.dll");
-            }
-
-            Thread.Sleep(1000);
-
             WriteColor("\nWhat do you want the name of the folder of the script to be?", ConsoleColor.White);
             Console.Write("> ");
 
