@@ -76,7 +76,7 @@ namespace CNLSP
                 scriptFolder = $"{LatiteFolder}\\Scripts\\Example";
                 Directory.CreateDirectory(scriptFolder);
                 Thread.Sleep(1000);
-                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!\n", ConsoleColor.Green);
             }
 
             DirectoryInfo di = new(scriptFolder);
@@ -92,7 +92,7 @@ namespace CNLSP
                 WriteColor("Extracting files.zip...", ConsoleColor.Yellow);
                 ZipFile.ExtractToDirectory($"{scriptFolder}\\files.zip", $"{scriptFolder}");
                 File.Delete($"{scriptFolder}\\files.zip");
-                WriteColor("Finished extracting files.zip!", ConsoleColor.Green);
+                WriteColor("Finished extracting files.zip!\n", ConsoleColor.Green);
 
                 Thread.Sleep(1000);
                 WriteColor(
