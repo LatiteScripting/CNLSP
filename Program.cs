@@ -96,7 +96,7 @@ namespace CNLSP
 
                 Thread.Sleep(1000);
                 WriteColor(
-                    $"Finished setting up development environment!\nThe script folder location is: {scriptFolder}",
+                    $"Finished setting up development environment!\n\nThe script folder location is: {scriptFolder}\n",
                     ConsoleColor.Green);
                 WriteColor("Press any key to exit...", ConsoleColor.Red);
                 Console.ReadLine();
