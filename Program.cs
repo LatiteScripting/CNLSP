@@ -23,7 +23,7 @@ namespace CNLSP
         }
 
         private static readonly string LatiteFolder =
-            $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\Latite";
+            $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode\Scripts";
 
         private static readonly string UserName = Environment.UserName;
 
@@ -45,16 +45,16 @@ namespace CNLSP
                 if (Regex.IsMatch(scriptFolderName,
                         "^(?!(?:CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(?:\\.[^.]*)?$)[^<>:\"/\\\\|?*\\x00-\\x1F]*[^<>:\"/\\\\|?*\\x00-\\x1F\\ .]$"))
                 {
-                    scriptFolder = $"{LatiteFolder}\\Scripts\\{scriptFolderName}";
+                    scriptFolder = $"{LatiteFolder}\\{scriptFolderName}";
                     if (!Directory.Exists(scriptFolder))
                     {
                         Directory.CreateDirectory(scriptFolder);
                         Thread.Sleep(1000);
-                        WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!",
+                        WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}!",
                             ConsoleColor.Green);
                     }
                     else if (Directory.Exists(scriptFolder))
-                        WriteColor($"Folder {scriptFolderName} already exists in {LatiteFolder}!", ConsoleColor.Red);
+                        WriteColor($"Folder {scriptFolderName} already exists!", ConsoleColor.Red);
                 }
                 else
                 {
@@ -62,10 +62,10 @@ namespace CNLSP
                         "The folder name you supplied is not compatible with Windows, so the folder name is now \"Example\".",
                         ConsoleColor.Red);
                     scriptFolderName = "Example";
-                    scriptFolder = $"{LatiteFolder}\\Scripts\\Example";
+                    scriptFolder = $"{LatiteFolder}\\Example";
                     Directory.CreateDirectory(scriptFolder);
                     Thread.Sleep(1000);
-                    WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!", ConsoleColor.Green);
+                    WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}!", ConsoleColor.Green);
                 }
             }
             else if (scriptFolderName == string.Empty)
@@ -73,10 +73,10 @@ namespace CNLSP
                 WriteColor("You supplied an empty folder name, so the folder name is now \"Example\". ",
                     ConsoleColor.Red);
                 scriptFolderName = "Example";
-                scriptFolder = $"{LatiteFolder}\\Scripts\\Example";
+                scriptFolder = $"{LatiteFolder}\\{scriptFolderName}";
                 Directory.CreateDirectory(scriptFolder);
                 Thread.Sleep(1000);
-                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}\\Scripts!\n", ConsoleColor.Green);
+                WriteColor($"Created folder {scriptFolderName} in {LatiteFolder}!\n", ConsoleColor.Green);
             }
 
             DirectoryInfo di = new(scriptFolder);
@@ -84,15 +84,15 @@ namespace CNLSP
             if (files.Length == 0)
             {
                 Thread.Sleep(1000);
-                WriteColor("\nDownloading zip file for example scripting files...", ConsoleColor.Yellow);
-                DownloadFile("https://latite-client.is-from.space/r/NewLatiteScriptingProject.zip",
-                    $"{scriptFolder}\\files.zip");
+                WriteColor("\nDownloading LatiteScriptingTemplate.zip", ConsoleColor.Yellow);
+                DownloadFile("https://latite-client.is-from.space/r/LatiteScriptingTemplate.zip",
+                    $"{scriptFolder}\\LatiteScriptingTemplate.zip");
 
                 Thread.Sleep(1000);
-                WriteColor("Extracting files.zip...", ConsoleColor.Yellow);
-                ZipFile.ExtractToDirectory($"{scriptFolder}\\files.zip", $"{scriptFolder}");
-                File.Delete($"{scriptFolder}\\files.zip");
-                WriteColor("Finished extracting files.zip!\n", ConsoleColor.Green);
+                WriteColor("Extracting LatiteScriptingTemplate.zip...", ConsoleColor.Yellow);
+                ZipFile.ExtractToDirectory($"{scriptFolder}\\LatiteScriptingTemplate.zip", $"{scriptFolder}");
+                File.Delete($"{scriptFolder}\\LatiteScriptingTemplate.zip");
+                WriteColor("Finished extracting LatiteScriptingTemplate.zip!\n", ConsoleColor.Green);
 
                 Thread.Sleep(1000);
                 WriteColor(
