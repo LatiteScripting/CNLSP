@@ -12,14 +12,13 @@ namespace CNLSP
             Console.ResetColor();
         }
 
-        private static void DownloadFile(string url, string path)
+        private static bool DownloadFile(string url, string path)
         {
             using HttpClient client = new();
             using Task<Stream> stream = client.GetStreamAsync(url);
             using FileStream fileStream = new(path, FileMode.OpenOrCreate);
             stream.Result.CopyTo(fileStream);
-            if (stream.IsCompletedSuccessfully)
-                WriteColor("Downloaded file(s) successfully!", ConsoleColor.Green);
+            return stream.IsCompletedSuccessfully;
         }
 
         private static readonly string LatiteFolder =
@@ -85,21 +84,28 @@ namespace CNLSP
             {
                 Thread.Sleep(1000);
                 WriteColor("\nDownloading LatiteScriptingTemplate.zip", ConsoleColor.Yellow);
-                DownloadFile("https://latite-client.is-from.space/r/LatiteScriptingTemplate.zip",
-                    $"{scriptFolder}\\LatiteScriptingTemplate.zip");
+                if (DownloadFile("https://latite-client.is-from.space/r/LatiteScriptingTemplate.zip",
+                        $"{scriptFolder}\\LatiteScriptingTemplate.zip"))
+                {
+                    Thread.Sleep(1000);
+                    WriteColor("Extracting LatiteScriptingTemplate.zip...", ConsoleColor.Yellow);
+                    ZipFile.ExtractToDirectory($"{scriptFolder}\\LatiteScriptingTemplate.zip", $"{scriptFolder}");
+                    File.Delete($"{scriptFolder}\\LatiteScriptingTemplate.zip");
+                    WriteColor("Finished extracting LatiteScriptingTemplate.zip!\n", ConsoleColor.Green);
 
-                Thread.Sleep(1000);
-                WriteColor("Extracting LatiteScriptingTemplate.zip...", ConsoleColor.Yellow);
-                ZipFile.ExtractToDirectory($"{scriptFolder}\\LatiteScriptingTemplate.zip", $"{scriptFolder}");
-                File.Delete($"{scriptFolder}\\LatiteScriptingTemplate.zip");
-                WriteColor("Finished extracting LatiteScriptingTemplate.zip!\n", ConsoleColor.Green);
-
-                Thread.Sleep(1000);
-                WriteColor(
-                    $"Finished setting up development environment!\n\nThe script folder location is: {scriptFolder}\n",
-                    ConsoleColor.Green);
-                WriteColor("Press any key to exit...", ConsoleColor.Red);
-                Console.ReadLine();
+                    Thread.Sleep(1000);
+                    WriteColor(
+                        $"Finished setting up development environment!\n\nThe script folder location is: {scriptFolder}\n",
+                        ConsoleColor.Green);
+                    WriteColor("Press any key to exit...", ConsoleColor.Red);
+                    Console.ReadLine();
+                }
+                else
+                {
+                    WriteColor("Failed to download LatiteScriptingTemplate.zip\n", ConsoleColor.Red);
+                    WriteColor("Press any key to exit...", ConsoleColor.Red);
+                    Console.ReadLine();
+                }
             }
             else
             {
