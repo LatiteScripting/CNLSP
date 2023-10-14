@@ -1,5 +1,5 @@
 # CNLSP
-## Create New Latite Client Project
+## Create New Latite Scripting Project
 
 This program simplifies the process of creating a project.
 
