@@ -21,8 +21,55 @@ namespace CNLSP
             return stream.IsCompletedSuccessfully;
         }
 
+        // who knew just moving files and subdirectories could be so annoying (probably skill issue on my part)
+        private static void MoveFiles(string sourceDirectory, string destinationDirectory)
+        {
+            // If destination directory doesn't exist, create it
+            if (!Directory.Exists(destinationDirectory))
+                Directory.CreateDirectory(destinationDirectory);
+
+            string[] files;
+            try
+            {
+                files = Directory.GetFiles(sourceDirectory);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                WriteColor($"Access to {sourceDirectory} is denied: {e.Message}", ConsoleColor.Red);
+                return;
+            }
+
+            // Move each file to the destination directory
+            foreach (string file in files)
+            {
+                string fileName = Path.GetFileName(file);
+                string destFile = Path.Combine(destinationDirectory, fileName);
+                File.Move(file, destFile);
+            }
+
+            // Get all subdirectories
+            string[] subdirectories;
+            try
+            {
+                subdirectories = Directory.GetDirectories(sourceDirectory);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine($"Access to {sourceDirectory} is denied: {e.Message}");
+                return;
+            }
+
+            // Recursively call Move for each subdirectory
+            foreach (string subdir in subdirectories)
+            {
+                string subdirName = Path.GetFileName(subdir);
+                string destSubdir = Path.Combine(destinationDirectory, subdirName);
+                MoveFiles(subdir, destSubdir);
+            }
+        }
+
         private static readonly string LatiteFolder =
-            $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode\Scripts";
+            $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Packages\Microsoft.MinecraftUWP_8wekyb3d8bbwe\RoamingState\LatiteRecode\Plugins";
 
         private static readonly string UserName = Environment.UserName;
 
@@ -33,7 +80,7 @@ namespace CNLSP
 
             Thread.Sleep(3000);
 
-            WriteColor("\nWhat do you want the name of the folder of the script to be?", ConsoleColor.White);
+            WriteColor("\nWhat do you want the name of the folder of the plugin to be?", ConsoleColor.White);
             Console.Write("> ");
 
             string? scriptFolderName = Console.ReadLine();
@@ -83,8 +130,8 @@ namespace CNLSP
             if (files.Length == 0)
             {
                 Thread.Sleep(1000);
-                WriteColor("\nDownloading LatiteScriptingTemplate.zip", ConsoleColor.Yellow);
-                if (DownloadFile("https://latite-client.is-from.space/r/LatiteScriptingTemplate.zip",
+                WriteColor("\nDownloading the Latite Scripting template", ConsoleColor.Yellow);
+                if (DownloadFile("https://github.com/LatiteScripting/Template/archive/refs/heads/master.zip",
                         $"{scriptFolder}\\LatiteScriptingTemplate.zip"))
                 {
                     Thread.Sleep(1000);
@@ -92,6 +139,10 @@ namespace CNLSP
                     ZipFile.ExtractToDirectory($"{scriptFolder}\\LatiteScriptingTemplate.zip", $"{scriptFolder}");
                     File.Delete($"{scriptFolder}\\LatiteScriptingTemplate.zip");
                     WriteColor("Finished extracting LatiteScriptingTemplate.zip!\n", ConsoleColor.Green);
+
+                    // Move all files from Template-master folder to the actual plugin folder
+                    MoveFiles($"{scriptFolder}\\Template-master", scriptFolder);
+                    Directory.Delete($"{scriptFolder}\\Template-master", true);
 
                     Thread.Sleep(1000);
                     WriteColor(
