@@ -75,6 +75,8 @@ namespace CNLSP
 
         static int Main(string[] args)
         {
+            Console.Title = "CNLSP";
+
             WriteColor($"Hello, {UserName}!\nThe program will setup your development environment shortly...",
                 ConsoleColor.White);
 
